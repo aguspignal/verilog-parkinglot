@@ -1,6 +1,6 @@
 module fsm_out (
     input clk, a, b, reset,
-    output reg y
+    output y
 );
 
 localparam [1:0]
@@ -12,48 +12,34 @@ localparam [1:0]
 reg [1:0] state, next_state;
 
 always @(posedge clk) begin
-    if (reset) begin
-        state = S0;
-    end 
-    else begin
-        state = next_state;
-    end
+    if (reset)
+        state <= S0;
+    else
+        state <= next_state;
 end
 
 always @(state or a or b) begin
     case (state)
-        S0: 
-            begin
-                y = 0;
-                if (~a & b)
+        S0: if (~a & b)
                     next_state = S1;
                 else
                     next_state = S0;
-            end
 
-        S3: 
-            if ({a, b} == ~state)
+        S3: if ({a, b} == ~state)
                 next_state = state;
             else if (~a & ~b) 
-                begin
-                    next_state = S0;
-                    y = 1;
-                end
+                next_state = S0;
             else 
-                begin
-                    next_state = {a, b};
-                    y = 0;
-                end
+                next_state = {a, b};
 
         default: 
-            begin
-                y = 0;
-                if ({a, b} == ~state)
-                    next_state = state;
-                else 
-                    next_state = {a, b};
-            end
+            if ({a, b} == ~state)
+                next_state = state;
+            else 
+                next_state = {a, b};
     endcase
 end
+
+assign y = (state[1] & ~state[0] & ~a & ~b);
 
 endmodule

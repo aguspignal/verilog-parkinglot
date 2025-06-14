@@ -12,54 +12,32 @@ localparam [1:0]
 reg [1:0] state, next_state;
 
 always @(posedge clk) begin
-    if (reset) begin
-        state = S0;
-    end 
-    else begin
-        state = next_state;
-    end
+    if (reset)
+        state <= S0;
+    else
+        state <= next_state;
 end
 
 always @(state or a or b) begin
     case (state)
-        S0: begin
-            // y = 0;
-            if (a & ~b)
+        S0: if (a & ~b)
                 next_state = S1;
             else
                 next_state = S0;
-        end
 
-        S3: 
-            if ({a, b} == ~state)
+        S3: if ({a, b} == ~state)
                 next_state = state;
-            else if (~a & ~b) begin
+            else if (~a & ~b)
                 next_state = S0;
-                // y = 1;
-            end
-            else begin
+            else
                 next_state = {a, b};
-                // y = 0;
-            end
 
-        default: begin
-            // y = 0;
+        default:
             if ({a, b} == ~state)
                 next_state = state;
             else 
                 next_state = {a, b};
-        end
     endcase
-
-    // next_state[1] = (state[1] & a) |
-    //                 (state[0] & a & b) |
-    //                 (~state[0] & a & ~b) | 
-    //                 (state[1] & state[0] & ~a);
-    
-    // next_state[0] = (state[0] & b) |
-    //                 (state[1] & a & b) |
-    //                 (state[1] & state[0] & ~a) |
-    //                 (~state[1] & state[0] & a)
 end
 
 assign y = (~state[1] & state[0] & ~a & ~b);
