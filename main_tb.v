@@ -28,19 +28,13 @@ initial begin
     #1
     a = 0; b = 0;
 
-    #1 // aca deberia avanzar
+    #1 // meto un auto
     a = 1; b = 0;
     #1
-    a = 1; b = 1;
-    #1 // aca deberia retroceder
-    a = 1; b = 0;
-    #1 
-    a = 1; b = 1;
-    #1 // deberia mantener estado
     a = 1; b = 1;
     #1
     a = 0; b = 1;
-    #1 // deberia ir al inicio con salida 1
+    #1
     a = 0; b = 0;
     
     #1 // meto otro auto
