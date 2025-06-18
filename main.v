@@ -1,37 +1,27 @@
 `include "cont_ascdesc_3b/cont_ascdesc_3b.v"
 
 module main (
-    input clk, a, b, reset,
+    input clk, sensor_a, sensor_b, reset,
     output [2:0] count
 );
 
-wire btn_add_clean, btn_sub_clean, rst_clean;
-wire pulse_add, pulse_sub, pulse_rst;
-wire fsm_in_output, fsm_out_output, fsm_output;
+wire sensor_a_clean, sensor_b_clean, rst_clean, pulse_rst;
+wire fsm_in_output, fsm_out_output;
 
 debouncer deb_add (
     .clk(clk),
-    .rst(1'b0),
-    .noisy(a),
-    .clean(btn_add_clean)
+    .noisy(sensor_a),
+    .clean(sensor_a_clean)
 );
 
 debouncer deb_sub (
     .clk(clk),
-    .rst(1'b0),
-    .noisy(b),
-    .clean(btn_sub_clean)
+    .noisy(sensor_b),
+    .clean(sensor_b_clean)
 );
-
-reg [1:0] value;
-
-always @(btn_add_clean, btn_sub_clean) begin
-    value <= {~btn_add_clean, ~btn_sub_clean};
-end
 
 debouncer deb_rst (
     .clk(clk),
-    .rst(1'b0),
     .noisy(reset),
     .clean(rst_clean)
 );
@@ -43,16 +33,22 @@ edge_detector ed_rst (
     .rising_edge(pulse_rst)
 );
 
+reg [1:0] ab;
+
+always @(sensor_a_clean, sensor_b_clean) begin
+    ab <= {~sensor_a_clean, ~sensor_b_clean};
+end
+
 fsm_in fsm_entrada_vehiculo (
     .clk(clk),
-    .ab(value),
+    .ab(ab),
     .reset(pulse_rst | (count >= 3'b111)),
     .y(fsm_in_output)
 );
 
 fsm_out fsm_salida_vehiculo (
     .clk(clk),
-    .ab(value),
+    .ab(ab),
     .reset(pulse_rst | (count == 3'b000)),
     .y(fsm_out_output)
 );

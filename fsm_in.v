@@ -21,10 +21,10 @@ end
 
 always @(state or ab) begin
     case (state)
-        // S0: if (ab == 2'b10)
-        //         next_state = S1;
-        //     else
-        //         next_state = S0;
+        S0: if (ab == 2'b10)
+                next_state = S1;
+            else
+                next_state = S0;
 
         S1: if (ab == 2'b11)
                 next_state = S2;
@@ -40,30 +40,11 @@ always @(state or ab) begin
             else 
                 next_state = S2;
 
-        // S3: if (ab == 2'b00) begin
-        //         y = 1;
-        //         next_state = S0; end
-        //     else if (ab == 2'b11)
-        //         next_state = S2;
-        //     else
-        //         next_state = S0;
-
-        S0: if (ab == 2'b10)
-                next_state = S1;
-            else
-                next_state = S0;
-
         S3: if (ab == ~state)
                 next_state = state;
             else if (ab == 2'b00)
                 next_state = S0;
             else
-                next_state = ab;
-
-        default:
-            if (ab == ~state)
-                next_state = state;
-            else 
                 next_state = ab;
     endcase
 end

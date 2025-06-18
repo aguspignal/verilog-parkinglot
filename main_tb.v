@@ -12,8 +12,8 @@ wire [2:0] count;
 
 main uut (
     .clk(clk),
-    .a(a),
-    .b(b),
+    .sensor_a(a),
+    .sensor_b(b),
     .reset(reset),
     .count(count)
 );
