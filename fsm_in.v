@@ -4,7 +4,7 @@ module fsm_in (
 );
 
 localparam [1:0]
-    S0 = 2'b00,
+    S0 = 2'b00, 
     S1 = 2'b10,
     S2 = 2'b11,
     S3 = 2'b01;
@@ -40,6 +40,6 @@ always @(state or a or b) begin
     endcase
 end
 
-assign y = (~state[1] & state[0] & ~a & ~b);
+assign y = ((state == S3) & ~a & ~b);
 
 endmodule

@@ -1,7 +1,7 @@
 set_io --warn-no-port clk 94  # input
 set_io --warn-no-port a 31  # input
 set_io --warn-no-port b 32  # input
-set_io --warn-no-port b 34  # input
+set_io --warn-no-port reset 34  # input
 set_io --warn-no-port count[0] 1  #-- output
 set_io --warn-no-port count[1] 2  #-- output
 set_io --warn-no-port count[2] 3  #-- output

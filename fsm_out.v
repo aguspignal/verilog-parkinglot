@@ -40,6 +40,6 @@ always @(state or a or b) begin
     endcase
 end
 
-assign y = (state[1] & ~state[0] & ~a & ~b);
+assign y = ((state == S3) & ~a & ~b);
 
 endmodule
