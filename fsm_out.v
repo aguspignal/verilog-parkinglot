@@ -1,5 +1,6 @@
 module fsm_out (
-    input clk, a, b, reset,
+    input clk, reset,
+    input [1:0] ab,
     output y
 );
 
@@ -18,28 +19,54 @@ always @(posedge clk) begin
         state <= next_state;
 end
 
-always @(state or a or b) begin
+always @(state or ab) begin
     case (state)
-        S0: if (~a & b)
+        S0: if (ab == 2'b01)
                     next_state = S1;
-                else
-                    next_state = S0;
+            else
+                next_state = S0;
 
-        S3: if ({a, b} == ~state)
+        S3: if (ab == ~state)
                 next_state = state;
-            else if (~a & ~b) 
+            else if (ab == 2'b00) 
                 next_state = S0;
             else 
-                next_state = {a, b};
+                next_state = ab;
 
         default: 
-            if ({a, b} == ~state)
+            if (ab == ~state)
                 next_state = state;
             else 
-                next_state = {a, b};
+                next_state = ab;
+        // S0: if (ab == 2'b01)
+        //         next_state = S1;
+        //     else
+        //         next_state = S0;
+
+        // S1: if (ab == 2'b11)
+        //         next_state = S2;
+        //     else if (ab == 2'b00)
+        //         next_state = S0;
+        //     else
+        //         next_state = S1;
+
+        // S2: if (ab == 2'b10)
+        //         next_state = S3;
+        //     else if (ab == 2'b01)
+        //         next_state = S1;
+        //     else 
+        //         next_state = S2;
+
+        // S3: if (ab == 2'b00) begin
+        //         y=1;
+        //         next_state = S0; end
+        //     else if (ab == 2'b11)
+        //         next_state = S2;
+        //     else
+        //         next_state = S0;
     endcase
 end
 
-assign y = ((state == S3) & ~a & ~b);
+assign y = ((state == S3) & (ab == 2'b00));
 
 endmodule

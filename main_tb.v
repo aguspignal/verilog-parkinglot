@@ -23,10 +23,8 @@ initial begin
     $dumpvars(0, main_tb);
     
     a = 0; b = 0; reset = 1;
-    #1
-    a = 0; b = 1; reset = 0;
-    #1
-    a = 0; b = 0;
+    #2
+    reset = 0;
 
     #1 // meto un auto
     a = 1; b = 0;

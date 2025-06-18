@@ -23,26 +23,18 @@ debouncer deb_sub (
     .clean(btn_sub_clean)
 );
 
+reg [1:0] value;
+
+always @(btn_add_clean, btn_sub_clean) begin
+    value <= {~btn_add_clean, ~btn_sub_clean};
+end
+
 debouncer deb_rst (
     .clk(clk),
     .rst(1'b0),
     .noisy(reset),
     .clean(rst_clean)
 );
-
-// edge_detector ed_add (
-//     .clk(clk),
-//     .rst(1'b0),
-//     .signal_in(btn_add_clean),
-//     .rising_edge(pulse_add)
-// );
-
-// edge_detector ed_sub (
-//     .clk(clk),
-//     .rst(1'b0),
-//     .signal_in(btn_sub_clean),
-//     .rising_edge(pulse_sub)
-// );
 
 edge_detector ed_rst (
     .clk(clk),
@@ -53,22 +45,21 @@ edge_detector ed_rst (
 
 fsm_in fsm_entrada_vehiculo (
     .clk(clk),
-    .a(pulse_add),
-    .b(pulse_sub),
+    .ab(value),
     .reset(pulse_rst | (count >= 3'b111)),
     .y(fsm_in_output)
 );
 
 fsm_out fsm_salida_vehiculo (
     .clk(clk),
-    .a(pulse_add),
-    .b(pulse_sub),
+    .ab(value),
     .reset(pulse_rst | (count == 3'b000)),
     .y(fsm_out_output)
 );
 
 cont_ascdesc_3b contador (
-    .clk(fsm_in_output | fsm_out_output | pulse_rst),
+    .clk(clk),
+    .enable(fsm_in_output | fsm_out_output | pulse_rst),
     .updown(fsm_in_output),
     .reset(pulse_rst),
     .Q(count)
