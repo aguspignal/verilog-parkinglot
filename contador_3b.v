@@ -1,16 +1,16 @@
-module cont_ascdesc_3b (
+module contador_3b (
     input clk, updown, reset, enable,
-    output reg [2:0] Q
+    output reg [2:0] count
 );
 
 always @(posedge clk) begin
     if (reset)
-        Q <= 4'b0000;
+        count <= 4'b0000;
     else if (enable) begin
         if (updown)
-            Q <= Q + 1;
+            count <= count + 1;
         else 
-            Q <= Q - 1;
+            count <= count - 1;
     end
 end
 

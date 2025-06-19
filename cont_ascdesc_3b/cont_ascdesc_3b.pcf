@@ -1,6 +1,0 @@
-set_io --warn-no-port clk 94  # input
-set_io --warn-no-port updown 33  # input
-set_io --warn-no-port reset 34  # input
-set_io --warn-no-port Q[0] 1  #-- output
-set_io --warn-no-port Q[1] 2  #-- output
-set_io --warn-no-port Q[2] 3  #-- output

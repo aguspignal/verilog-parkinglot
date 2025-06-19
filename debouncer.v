@@ -1,21 +1,21 @@
 module debouncer (
-    input wire clk,     // reloj del sistema (ej. 12 MHz)
-    input wire noisy,   // señal del botón, posiblemente con rebotes
-    output reg clean    // salida estable: solo cambia si la entrada fue estable mucho tiempo
+    input wire clk,
+    input wire raw_signal, // señal del btn
+    output reg clean
 );
-    reg [17:0] count;   // contador de estabilidad (suficiente para contar hasta 262144 ciclos)
-    reg sync;           // copia temporal de la señal de entrada, para detectar cambios
+    reg [17:0] count;
+    reg signal_copy; // copia de la señal del btn para detectar cambios
 
     always @(posedge clk) begin
-        sync <= noisy;  // actualizamos la copia de la señal actual
+        signal_copy <= raw_signal;
 
-        if (sync == noisy) begin
-            // Si la señal se mantiene estable (sin cambios) aumentamos el contador
-            if (count < 240000)
-                count <= count + 1;  // seguimos contando estabilidad
-            else
-                clean <= noisy;     // después de suficiente tiempo, actualizamos salida limpia
-        end else
-            count <= 0;  // si la señal cambia, reiniciamos el contador para empezar a medir de nuevo
+        if (signal_copy != raw_signal) // la señal del btn cambio, estabilizamos devuelta
+            count <= 0;
+        else begin
+            if (count < 240000) 
+                count <= count + 1; // mientras la señal se estabiliza (o se mantiene estable?)
+            else 
+                clean <= raw_signal; // despues de mantenerse estable suficiente tiempo
+        end
     end
 endmodule
