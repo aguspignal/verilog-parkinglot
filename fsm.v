@@ -76,8 +76,8 @@ always @(state or ab) begin
     endcase
 end
 
-assign y = ((state == S5) & ab = 2'b00);
-assign z = ((state == S6) & ab = 2'b00);
+assign y = ((state == S5) & ab == 2'b00);
+assign z = ((state == S6) & ab == 2'b00);
 // assign yz = {((state == S5) & ab = 2'b00), ((state == S6) & ab = 2'b00)};
 
 endmodule
