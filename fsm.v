@@ -1,7 +1,7 @@
 module fsm (
     input clk, reset,
     input [1:0] ab,
-    output y, z 
+    output in, out  
     // output [1:0] yz
 );
     
@@ -24,6 +24,7 @@ always @(posedge clk) begin
 end
 
 always @(state or ab) begin
+    next_state = state;
     case (state)
         S0: if (ab == 2'b10)
                 next_state = S1;
@@ -81,8 +82,8 @@ end
 
 
 
-assign y = ((state == S5) & ab == 2'b00); // entró un auto
-assign z = ((state == S6) & ab == 2'b00); // salió un auto
+assign in = ((state == S5) & (ab == 2'b00)); // entró un auto
+assign out = ((state == S6) & (ab == 2'b00)); // salió un auto
 // assign yz = {((state == S5) & ab = 2'b00), ((state == S6) & ab = 2'b00)};
 
 endmodule

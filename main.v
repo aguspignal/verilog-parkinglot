@@ -43,15 +43,15 @@ fsm fsm_in_out (
     .clk(clk),
     .reset(pulse_reset),
     .ab(ab),
-    .y(fsm_in_output),
-    .z(fsm_out_output)
+    .in(fsm_in_output),
+    .out(fsm_out_output)
     // .yz(fsm_output)
 );
 
 contador_3b contador (
     .clk(clk),
     .reset(pulse_reset),
-    .enable(fsm_in_output | fsm_out_output | pulse_reset),
+    .enable(((fsm_in_output && (count < 3'b111)) || (fsm_out_output && (count > 3'b000)))),
     .updown(fsm_in_output), // si entra por fsm_in_output=1 (suma) sino es =0  (resta)
     // .enable(fsm_output | pulse_reset),
     // .updown(yz[0]), 
