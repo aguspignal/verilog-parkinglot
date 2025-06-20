@@ -51,7 +51,7 @@ contador_3b contador (
     .clk(clk),
     .reset(pulse_reset),
     .enable(fsm_in_output | fsm_out_output | pulse_reset),
-    .updown(y), // si entra por fsm_in_output y=1 (suma) sino es y=0 y z=1 (resta)
+    .updown(fsm_in_output), // si entra por fsm_in_output=1 (suma) sino es =0  (resta)
     // .enable(fsm_output | pulse_reset),
     // .updown(yz[0]), 
     .count(count)
