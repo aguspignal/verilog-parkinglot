@@ -9,27 +9,28 @@ wire fsm_in_output, fsm_out_output;
 
 debouncer deb_sensor_a (
     .clk(clk),
-    .noisy(sensor_a),
+    .raw_signal(sensor_a),
     .clean(sensor_a_clean)
 );
 
 debouncer deb_sensor_b (
     .clk(clk),
-    .noisy(sensor_b),
+    .raw_signal(sensor_b),
     .clean(sensor_b_clean)
 );
 
 debouncer deb_reset (
     .clk(clk),
-    .noisy(reset),
+    .raw_signal(reset),
     .clean(reset_clean)
 );
+
 
 pulse_detector pd_rst (
     .clk(clk),
     .rst(1'b0),
     .signal_in(reset_clean),
-    .rising_edge(pulse_reset)
+    .pulse(pulse_reset)
 );
 
 reg [1:0] ab;
@@ -42,7 +43,7 @@ fsm fsm_in_out (
     .clk(clk),
     .reset(pulse_reset),
     .ab(ab),
-    .y(fsm_in_output)
+    .y(fsm_in_output),
     .z(fsm_out_output)
     // .yz(fsm_output)
 );
