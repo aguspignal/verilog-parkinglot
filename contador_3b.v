@@ -8,9 +8,9 @@ always @(posedge clk) begin
         count <= 4'b0000;
     else if (enable) begin
         if (updown)
-            count <= count + 1;
+            if (count < 3'b111) count <= count + 1;
         else 
-            count <= count - 1;
+            if (count > 3'b000) count <= count - 1;
     end
 end
 

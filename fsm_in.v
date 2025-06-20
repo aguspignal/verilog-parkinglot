@@ -9,10 +9,6 @@ localparam [1:0]
     S1 = 2'b10, // se corta sensor a
     S2 = 2'b11, // se cortan ambos
     S3 = 2'b01; // se reactiva sensor a
-    // S00 = 2'b00,
-    // S10 = 2'b10,
-    // S11 = 2'b11,
-    // S01 = 2'b01;
 
 reg [1:0] state, next_state;
 

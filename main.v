@@ -5,6 +5,7 @@ module main (
 
 wire sensor_a_clean, sensor_b_clean, reset_clean, pulse_reset;
 wire fsm_in_output, fsm_out_output;
+// wire [1:0] fsm_output;
 
 debouncer deb_sensor_a (
     .clk(clk),
@@ -37,26 +38,50 @@ always @(sensor_a_clean, sensor_b_clean) begin
     ab <= {~sensor_a_clean, ~sensor_b_clean}; // activo a bajo
 end
 
-fsm_in fsm_entrada_vehiculo (
+fsm fsm_in_out (
     .clk(clk),
+    .reset(pulse_reset),
     .ab(ab),
-    .reset(pulse_reset | (count >= 3'b111)),
     .y(fsm_in_output)
-);
-
-fsm_out fsm_salida_vehiculo (
-    .clk(clk),
-    .ab(ab),
-    .reset(pulse_reset | (count == 3'b000)),
-    .y(fsm_out_output)
+    .z(fsm_out_output)
+    // .yz(fsm_output)
 );
 
 contador_3b contador (
     .clk(clk),
-    .enable(fsm_in_output | fsm_out_output | pulse_reset),
-    .updown(fsm_in_output),
     .reset(pulse_reset),
+    .enable(fsm_in_output | fsm_out_output | pulse_reset),
+    .updown(y), // si entra por fsm_in_output y=1 (suma) sino es y=0 y z=1 (resta)
+    // .enable(fsm_output | pulse_reset),
+    // .updown(yz[0]), 
     .count(count)
 );
+
+/*
+    ==========================
+    ROMPER EN CASO DE INCENDIO
+    ==========================
+*/
+// fsm_in fsm_entrada_vehiculo (
+//     .clk(clk),
+//     .ab(ab),
+//     .reset(pulse_reset | (count >= 3'b111)),
+//     .y(fsm_in_output)
+// );
+
+// fsm_out fsm_salida_vehiculo (
+//     .clk(clk),
+//     .ab(ab),
+//     .reset(pulse_reset | (count == 3'b000)),
+//     .y(fsm_out_output)
+// );
+
+// contador_3b contador (
+//     .clk(clk),
+//     .enable(fsm_in_output | fsm_out_output | pulse_reset),
+//     .updown(fsm_in_output),
+//     .reset(pulse_reset),
+//     .count(count)
+// );
 
 endmodule
