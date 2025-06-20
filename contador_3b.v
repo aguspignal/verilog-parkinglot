@@ -5,7 +5,7 @@ module contador_3b (
 
 always @(posedge clk) begin
     if (reset)
-        count <= 4'b0000;
+        count <= 3'b000;
     else if (enable) begin
         if (updown)
             if (count < 3'b111) count <= count + 1;
