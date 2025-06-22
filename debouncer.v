@@ -1,4 +1,4 @@
-module debouncer (
+module debouncer #(parameter MAX_COUNT = 240000) (
     input wire clk, raw_signal, // señal del btn
     output reg clean_signal
 );
@@ -11,7 +11,7 @@ module debouncer (
         if (signal_copy != raw_signal) // la señal del btn cambio, estabilizamos devuelta
             count <= 0;
         else begin
-            if (count < 240000) 
+            if (count < MAX_COUNT) 
                 count <= count + 1; // mientras la señal se estabiliza
             else 
                 clean_signal <= raw_signal; // despues de mantenerse estable suficiente tiempo

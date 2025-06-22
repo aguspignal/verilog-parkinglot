@@ -26,14 +26,22 @@ initial begin
     a = 1; b = 1; // simulo el activo a bajo
     #1
     reset = 0;
-    a = 0;
-    #1
-    b = 0;
-    #1
-    a = 1;
-    #1
-    b = 1;
-    #1
+    a = 0; b = 1;
+    #2
+    a = 0; b = 0;
+    #2
+    a = 1; b = 0;
+    #2
+    a = 1; b = 1;
+    #2
+    a = 0; b = 1;
+    #2
+    a = 0; b = 0;
+    #2
+    a = 1; b = 0;
+    #2
+    a = 1; b = 1;
+    #2
 
     $finish;
 end

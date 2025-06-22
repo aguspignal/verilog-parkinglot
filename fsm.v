@@ -23,6 +23,7 @@ always @(posedge clk) begin
 end
 
 always @(state or ab) begin
+    next_state = state;
     case (state)
         S0: if (ab == 2'b10)
                 next_state = S1;

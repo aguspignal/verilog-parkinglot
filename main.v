@@ -6,19 +6,21 @@ module main (
 wire sensor_a_clean, sensor_b_clean, reset_clean, pulse_reset;
 wire fsm_in_output, fsm_out_output;
 
-debouncer deb_sensor_a (
+parameter DEB_MAX_COUNT = 2;
+
+debouncer #(DEB_MAX_COUNT) deb_sensor_a (
     .clk(clk),
     .raw_signal(sensor_a),
     .clean_signal(sensor_a_clean)
 );
 
-debouncer deb_sensor_b (
+debouncer #(DEB_MAX_COUNT) deb_sensor_b (
     .clk(clk),
     .raw_signal(sensor_b),
     .clean_signal(sensor_b_clean)
 );
 
-debouncer deb_reset (
+debouncer #(DEB_MAX_COUNT) deb_reset (
     .clk(clk),
     .raw_signal(reset),
     .clean_signal(reset_clean)
