@@ -2,7 +2,6 @@ module fsm (
     input clk, reset,
     input [1:0] ab,
     output in, out  
-    // output [1:0] yz
 );
     
 localparam [2:0]
@@ -24,7 +23,6 @@ always @(posedge clk) begin
 end
 
 always @(state or ab) begin
-    next_state = state;
     case (state)
         S0: if (ab == 2'b10)
                 next_state = S1;
@@ -46,7 +44,6 @@ always @(state or ab) begin
                 next_state = S0;
             else
                 next_state = S2;
-
     
          S3: if (ab == 2'b01)
                 next_state = S5;
@@ -75,15 +72,12 @@ always @(state or ab) begin
                 next_state = S4;
             else
                 next_state = S6;
+
         default: next_state = state;
     endcase
 end
 
-
-
-
-assign in = ((state == S5) & (ab == 2'b00)); // entró un auto
-assign out = ((state == S6) & (ab == 2'b00)); // salió un auto
-// assign yz = {((state == S5) & ab = 2'b00), ((state == S6) & ab = 2'b00)};
+assign in = ((state == S5) & (ab == 2'b00));
+assign out = ((state == S6) & (ab == 2'b00));
 
 endmodule

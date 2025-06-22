@@ -1,7 +1,5 @@
 module pulse_detector (
-    input wire clk,
-    input wire rst,
-    input wire signal_in, // señal limpia del debouncer
+    input wire clk, rst, signal_in, // señal limpia del debouncer
     output wire pulse
 );
     reg prev;

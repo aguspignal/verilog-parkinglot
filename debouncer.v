@@ -1,7 +1,6 @@
 module debouncer (
-    input wire clk,
-    input wire raw_signal, // señal del btn
-    output reg clean
+    input wire clk, raw_signal, // señal del btn
+    output reg clean_signal
 );
     reg [17:0] count;
     reg signal_copy; // copia de la señal del btn para detectar cambios
@@ -13,9 +12,9 @@ module debouncer (
             count <= 0;
         else begin
             if (count < 240000) 
-                count <= count + 1; // mientras la señal se estabiliza (o se mantiene estable?)
+                count <= count + 1; // mientras la señal se estabiliza
             else 
-                clean <= raw_signal; // despues de mantenerse estable suficiente tiempo
+                clean_signal <= raw_signal; // despues de mantenerse estable suficiente tiempo
         end
     end
 endmodule
