@@ -6,7 +6,7 @@ module main (
 wire sensor_a_clean, sensor_b_clean, reset_clean, pulse_reset;
 wire fsm_in_output, fsm_out_output;
 
-parameter DEB_MAX_COUNT = 2;
+parameter DEB_MAX_COUNT = 1; // 240000 por default, para tb un valor menor
 
 debouncer #(DEB_MAX_COUNT) deb_sensor_a (
     .clk(clk),
@@ -37,6 +37,7 @@ reg [1:0] ab;
 
 always @(sensor_a_clean, sensor_b_clean) begin
     ab <= {~sensor_a_clean, ~sensor_b_clean}; // activo a bajo
+    // ab <= {sensor_a_clean, sensor_b_clean}; // activo a alto ->PARA TB<- ?
 end
 
 fsm fsm_in_out (

@@ -23,13 +23,9 @@ initial begin
     $dumpvars(0, main_tb);
     
     reset = 1;
-    a = 1; b = 1; // simulo el activo a bajo
-    #1
+    a = 0; b = 0; // si simulamos activas a bajo probar a=b=1;
+    #2 // entra un auto
     reset = 0;
-    a = 0; b = 1;
-    #2
-    a = 0; b = 0;
-    #2
     a = 1; b = 0;
     #2
     a = 1; b = 1;
@@ -37,11 +33,15 @@ initial begin
     a = 0; b = 1;
     #2
     a = 0; b = 0;
-    #2
+    #2 // entra otro
     a = 1; b = 0;
     #2
     a = 1; b = 1;
     #2
+    a = 0; b = 1;
+    #2
+    a = 0; b = 0;
+
 
     $finish;
 end
