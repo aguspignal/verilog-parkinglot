@@ -14,6 +14,6 @@ module pulse_detector (
     // si la señal pasa de 0 a 1 tenemos flanco positivo
     assign pulse = ~prev & signal_in;
 
-    // EN TB ANDA ASI, de 1 a 0, aunque si invertimos las entradas CREO que podria nadar igual
-    // assign pulse = prev & ~signal_in
+    // para simulacion en testbench, con entradas activas a alto 
+    // assign pulse = prev & ~signal_in;
 endmodule

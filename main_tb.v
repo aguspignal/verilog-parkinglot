@@ -26,22 +26,39 @@ initial begin
     a = 0; b = 0; // si simulamos activas a bajo probar a=b=1;
     #2 // entra un auto
     reset = 0;
+    #3
     a = 1; b = 0;
-    #2
+    #1
     a = 1; b = 1;
-    #2
+    #1
     a = 0; b = 1;
-    #2
+    #1
     a = 0; b = 0;
-    #2 // entra otro
+    #1 // entra otro
     a = 1; b = 0;
-    #2
+    #1
     a = 1; b = 1;
-    #2
+    #1
     a = 0; b = 1;
-    #2
+    #1
     a = 0; b = 0;
-
+    #1 // entra otro
+    a = 1; b = 0;
+    #1
+    a = 1; b = 1;
+    #1
+    a = 0; b = 1;
+    #1 
+    a = 0; b = 0;
+    #2 // sale un auto
+    a = 0; b = 1;
+    #1 
+    a = 1; b = 1;
+    #1
+    a = 1; b = 0;
+    #1
+    a = 0; b = 0;
+    #3
 
     $finish;
 end
