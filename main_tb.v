@@ -26,7 +26,7 @@ initial begin
     a = 0; b = 0; // si simulamos activas a bajo probar a=b=1;
     #2 // entra un auto
     reset = 0;
-    #3
+    #2
     a = 1; b = 0;
     #1
     a = 1; b = 1;
